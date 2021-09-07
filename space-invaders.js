@@ -14,61 +14,61 @@ function startApp(e) {
 
     const starTexture = PIXI.Texture.from('img/star.png');
 
-const starAmount = 1000;
-let cameraZ = 0;
-const fov = 20;
-const baseSpeed = 0.025;
-let speed = 25;
-let warpSpeed = 0.8;
-const starStretch = 8;
-const starBaseSize = 0.08;
+    const starAmount = 1000;
+    let cameraZ = 0;
+    const fov = 20;
+    const baseSpeed = 0.025;
+    let speed = 25;
+    let warpSpeed = 0.8;
+    const starStretch = 8;
+    const starBaseSize = 0.08;
 
-const stars = [];
-for (let i = 0; i < starAmount; i++) {
-    const star = {
-        sprite: new PIXI.Sprite(starTexture),
-        z: 0,
-        x: 0,
-        y: 0,
-    };
-    star.sprite.anchor.x = 0.5;
-    star.sprite.anchor.y = 0.7;
-    randomizeStar(star, true);
-    app.stage.addChild(star.sprite);
-    stars.push(star);
-}
-
-function randomizeStar(star, initial) {
-    star.z = initial ? Math.random() * 2000 : cameraZ + Math.random() * 1000 + 2000;
-
-    const deg = Math.random() * Math.PI * 2;
-    const distance = Math.random() * 50 + 1;
-    star.x = Math.cos(deg) * distance;
-    star.y = Math.sin(deg) * distance;
-}
-
-app.ticker.add((delta) => {
-
-    speed += (warpSpeed - speed) / 20;
-    cameraZ += delta * 10 * (speed + baseSpeed);
+    const stars = [];
     for (let i = 0; i < starAmount; i++) {
-        const star = stars[i];
-        if (star.z < cameraZ) randomizeStar(star);
-
-        const z = star.z - cameraZ;
-        star.sprite.x = star.x * (fov / z) * app.renderer.screen.width + app.renderer.screen.width / 2;
-        star.sprite.y = star.y * (fov / z) * app.renderer.screen.width + app.renderer.screen.height / 2;
-
-        const dxCenter = star.sprite.x - app.renderer.screen.width / 2;
-        const dyCenter = star.sprite.y - app.renderer.screen.height / 2;
-        const distanceCenter = Math.sqrt(dxCenter * dxCenter + dyCenter * dyCenter);
-        const distanceScale = Math.max(0, (2000 - z) / 2000);
-        star.sprite.scale.x = distanceScale * starBaseSize;
-
-        star.sprite.scale.y = distanceScale * starBaseSize + distanceScale * speed * starStretch * distanceCenter / app.renderer.screen.width;
-        star.sprite.rotation = Math.atan2(dyCenter, dxCenter) + Math.PI / 2;
+        const star = {
+            sprite: new PIXI.Sprite(starTexture),
+            z: 0,
+            x: 0,
+            y: 0,
+        };
+        star.sprite.anchor.x = 0.5;
+        star.sprite.anchor.y = 0.7;
+        randomizeStar(star, true);
+        app.stage.addChild(star.sprite);
+        stars.push(star);
     }
-});
+
+    function randomizeStar(star, initial) {
+        star.z = initial ? Math.random() * 2000 : cameraZ + Math.random() * 1000 + 2000;
+
+        const deg = Math.random() * Math.PI * 2;
+        const distance = Math.random() * 50 + 1;
+        star.x = Math.cos(deg) * distance;
+        star.y = Math.sin(deg) * distance;
+    }
+
+    app.ticker.add((delta) => {
+
+        speed += (warpSpeed - speed) / 20;
+        cameraZ += delta * 10 * (speed + baseSpeed);
+        for (let i = 0; i < starAmount; i++) {
+            const star = stars[i];
+            if (star.z < cameraZ) randomizeStar(star);
+
+            const z = star.z - cameraZ;
+            star.sprite.x = star.x * (fov / z) * app.renderer.screen.width + app.renderer.screen.width / 2;
+            star.sprite.y = star.y * (fov / z) * app.renderer.screen.width + app.renderer.screen.height / 2;
+
+            const dxCenter = star.sprite.x - app.renderer.screen.width / 2;
+            const dyCenter = star.sprite.y - app.renderer.screen.height / 2;
+            const distanceCenter = Math.sqrt(dxCenter * dxCenter + dyCenter * dyCenter);
+            const distanceScale = Math.max(0, (2000 - z) / 2000);
+            star.sprite.scale.x = distanceScale * starBaseSize;
+
+            star.sprite.scale.y = distanceScale * starBaseSize + distanceScale * speed * starStretch * distanceCenter / app.renderer.screen.width;
+            star.sprite.rotation = Math.atan2(dyCenter, dxCenter) + Math.PI / 2;
+        }
+    });
     // 
     let bullets = [];
     let bulletSpeed;
@@ -126,8 +126,10 @@ app.ticker.add((delta) => {
 
         let enemyBullet = new PIXI.Sprite.from('img/star.png')
         enemyBullet.anchor.set(1)
-        enemyBullet.x = enemiesArray[randomEnemy].x + 180
-        enemyBullet.y = enemiesArray[randomEnemy].y + 180
+        if (enemiesArray.length > 0) {
+            enemyBullet.x = enemiesArray[randomEnemy].x + 180
+            enemyBullet.y = enemiesArray[randomEnemy].y + 180
+        }
         enemyBullet.speed = enemyBulletSpeed;
         app.stage.addChild(enemyBullet)
 
@@ -140,7 +142,7 @@ app.ticker.add((delta) => {
         enemyBulletsArr.push(bullet);
     }
     let fireInterval = setInterval(enemyFire, 1500)
-  
+
 
 
     function updateEnemyBullet(delta) {
@@ -175,7 +177,7 @@ app.ticker.add((delta) => {
     function enemyBulletLoop(delta) {
         updateEnemyBullet()
     }
-    if(enemiesArray.length === 0){
+    if (enemiesArray.length === 0) {
         clearInterval(fireInterval)
     }
 
