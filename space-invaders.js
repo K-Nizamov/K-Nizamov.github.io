@@ -70,6 +70,7 @@ function startApp(e) {
         }
     });
     // 
+    let lives = 5
     let bullets = [];
     let bulletSpeed;
 
@@ -155,13 +156,17 @@ function startApp(e) {
             if (enemyBulletsArr.length > 0) {
                 if (intersectOfPlayerAndEnemy(enemyBulletsArr[i], player)) {
                     enemyBulletsArr[i].speed = 0;
+                    document.querySelector(`body > div > img.img${lives}`).remove()
+                    lives -= 1
                 }
                 if (enemyBulletsArr[i].speed === 0) {
-                    app.stage.removeChild(player)
                     app.stage.removeChild(enemyBulletsArr[i])
                     enemyBulletsArr.splice(i, 1)
-                    app.ticker.stop()
-                    document.body.style.cursor = 'default'
+                    if (lives === 0) {
+                        app.stage.removeChild(player)
+                        app.ticker.stop()
+                        document.body.style.cursor = 'default'
+                    }
                 }
             }
 

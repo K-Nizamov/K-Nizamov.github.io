@@ -10,8 +10,62 @@ button {
     height: 100px;
     width: 300px;
     font-size: 50px;
-    border: blue solid;
+    border:white solid;
     border-radius: 10px;
     background: rgb(141, 24, 3);
     color: white;
+}
+div p {
+    position: absolute;
+    z-index: 1;
+    height: 30px;
+    width: 100px;
+    color:white;
+    background: rgb(141, 24, 3);
+    font-size: 20px;
+    border: white solid;
+    border-radius: 10px;
+    left: 70%;
+    text-align: center;
+    padding-top: 5px;
+}
+.img1 {
+    position: absolute;
+    z-index: 1;
+    left: 78%;
+    padding-top: 8px;
+    width: 20px;
+    height: 20px;
+}
+.img2 {
+    position: absolute;
+    z-index: 1;
+    left: 80%;
+    padding-top: 8px;
+    width: 20px;
+    height: 20px;
+}
+.img3 {
+    position: absolute;
+    z-index: 1;
+    left: 82%;
+    padding-top: 8px;
+    width: 20px;
+    height: 20px;
+}
+.img4 {
+    position: absolute;
+    z-index: 1;
+    left: 84%;
+    padding-top: 8px;
+    width: 20px;
+    height: 20px;
+}
+.img5 {
+    position: absolute;
+    z-index: 1;
+    left: 86%;
+    padding-top: 8px;
+    width: 20px;
+    height: 20px;
 }
