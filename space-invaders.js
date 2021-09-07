@@ -1,13 +1,75 @@
 const app = new PIXI.Application({ antialias: true })
 app.renderer.resize(window.innerWidth, window.innerHeight);
-app.renderer.view.style.position = 'absolute'
-
+app.renderer.view.style.position = 'absolute';
 document.body.appendChild(app.view)
+document.querySelector("body > button").addEventListener('click', startApp)
 
-setTimeout(startApp, 2000)
 
-function startApp()  {
+function startApp(e) {
+    if (e.returnValue) {
+        document.querySelector("body > button").style.display = 'none'
+        document.body.style.cursor = 'none'
+    }
+    // Moving Star Background
 
+    const starTexture = PIXI.Texture.from('img/star.png');
+
+const starAmount = 1000;
+let cameraZ = 0;
+const fov = 20;
+const baseSpeed = 0.025;
+let speed = 25;
+let warpSpeed = 0.8;
+const starStretch = 8;
+const starBaseSize = 0.08;
+
+const stars = [];
+for (let i = 0; i < starAmount; i++) {
+    const star = {
+        sprite: new PIXI.Sprite(starTexture),
+        z: 0,
+        x: 0,
+        y: 0,
+    };
+    star.sprite.anchor.x = 0.5;
+    star.sprite.anchor.y = 0.7;
+    randomizeStar(star, true);
+    app.stage.addChild(star.sprite);
+    stars.push(star);
+}
+
+function randomizeStar(star, initial) {
+    star.z = initial ? Math.random() * 2000 : cameraZ + Math.random() * 1000 + 2000;
+
+    const deg = Math.random() * Math.PI * 2;
+    const distance = Math.random() * 50 + 1;
+    star.x = Math.cos(deg) * distance;
+    star.y = Math.sin(deg) * distance;
+}
+
+app.ticker.add((delta) => {
+
+    speed += (warpSpeed - speed) / 20;
+    cameraZ += delta * 10 * (speed + baseSpeed);
+    for (let i = 0; i < starAmount; i++) {
+        const star = stars[i];
+        if (star.z < cameraZ) randomizeStar(star);
+
+        const z = star.z - cameraZ;
+        star.sprite.x = star.x * (fov / z) * app.renderer.screen.width + app.renderer.screen.width / 2;
+        star.sprite.y = star.y * (fov / z) * app.renderer.screen.width + app.renderer.screen.height / 2;
+
+        const dxCenter = star.sprite.x - app.renderer.screen.width / 2;
+        const dyCenter = star.sprite.y - app.renderer.screen.height / 2;
+        const distanceCenter = Math.sqrt(dxCenter * dxCenter + dyCenter * dyCenter);
+        const distanceScale = Math.max(0, (2000 - z) / 2000);
+        star.sprite.scale.x = distanceScale * starBaseSize;
+
+        star.sprite.scale.y = distanceScale * starBaseSize + distanceScale * speed * starStretch * distanceCenter / app.renderer.screen.width;
+        star.sprite.rotation = Math.atan2(dyCenter, dxCenter) + Math.PI / 2;
+    }
+});
+    // 
     let bullets = [];
     let bulletSpeed;
 
@@ -59,7 +121,7 @@ function startApp()  {
 
     function createEnemyBullet() {
 
-        enemyBulletSpeed = 20;
+        enemyBulletSpeed = 10;
         let randomEnemy = getRandomIntInclusive(0, enemiesArray.length - 1)
 
         let enemyBullet = new PIXI.Sprite.from('img/star.png')
@@ -77,7 +139,8 @@ function startApp()  {
         let bullet = createEnemyBullet();
         enemyBulletsArr.push(bullet);
     }
-    setInterval(enemyFire, 800)
+    let fireInterval = setInterval(enemyFire, 1500)
+  
 
 
     function updateEnemyBullet(delta) {
@@ -96,6 +159,7 @@ function startApp()  {
                     app.stage.removeChild(enemyBulletsArr[i])
                     enemyBulletsArr.splice(i, 1)
                     app.ticker.stop()
+                    document.body.style.cursor = 'default'
                 }
             }
 
@@ -110,6 +174,9 @@ function startApp()  {
 
     function enemyBulletLoop(delta) {
         updateEnemyBullet()
+    }
+    if(enemiesArray.length === 0){
+        clearInterval(fireInterval)
     }
 
 
@@ -194,6 +261,4 @@ function startApp()  {
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min + 1) + min); //The maximum is inclusive and the minimum is inclusive
     }
-
-
 }
