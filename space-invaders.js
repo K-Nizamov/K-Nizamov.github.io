@@ -70,6 +70,27 @@ function startApp(e) {
         }
     });
     // 
+
+        // Hearts container
+        const heartsLivesContainer = new PIXI.Container()
+        app.stage.addChild(heartsLivesContainer)
+        const heartTexture = PIXI.Texture.from('img/heart.png')
+    
+        for (let i = 0; i < 5; i++) {
+            const heart = new PIXI.Sprite(heartTexture);
+            heart.width = 30;
+            heart.height = 30;
+            heart.x = (i % 5) * 40;
+            heart.y = Math.floor(i / 5) * 40;
+            heartsLivesContainer.addChild(heart);
+        }
+        heartsLivesContainer.x = 1180;
+        heartsLivesContainer.y = 15;
+        let text = new PIXI.Text('LIVES :',{fontFamily : 'Arial', fontSize: 24, fill : 0xff1010, align : 'left'});
+        app.stage.addChild(text)
+        text.x = 1080
+        text.y = 17
+    // 
     let lives = 5
     let bullets = [];
     let bulletSpeed;
@@ -156,7 +177,7 @@ function startApp(e) {
             if (enemyBulletsArr.length > 0) {
                 if (intersectOfPlayerAndEnemy(enemyBulletsArr[i], player)) {
                     enemyBulletsArr[i].speed = 0;
-                    document.querySelector(`body > div > img.img${lives}`).remove()
+                    heartsLivesContainer.children.length -=1
                     lives -= 1
                 }
                 if (enemyBulletsArr[i].speed === 0) {
