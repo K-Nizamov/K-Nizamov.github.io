@@ -84,8 +84,10 @@ function startApp(e) {
             heart.y = Math.floor(i / 5) * 40;
             heartsLivesContainer.addChild(heart);
         }
-        heartsLivesContainer.x = 1180;
-        heartsLivesContainer.y = 15;
+        heartsLivesContainer.x = window.innerWidth / 1.14;
+        heartsLivesContainer.y = window.innerHeight/ 27;
+        heartsLivesContainer.pivot.x = heartsLivesContainer.width / 2;
+        heartsLivesContainer.pivot.y = heartsLivesContainer.height / 2;
         let text = new PIXI.Text('LIVES :',{fontFamily : 'Arial', fontSize: 24, fill : 0xff1010, align : 'left'});
         app.stage.addChild(text)
         text.x = 1080
@@ -289,4 +291,5 @@ function startApp(e) {
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min + 1) + min); //The maximum is inclusive and the minimum is inclusive
     }
+    console.log(window.innerWidth,window.innerHeight);
 }
