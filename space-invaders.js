@@ -71,27 +71,27 @@ function startApp(e) {
     });
     // 
 
-        // Hearts container
-        const heartsLivesContainer = new PIXI.Container()
-        app.stage.addChild(heartsLivesContainer)
-        const heartTexture = PIXI.Texture.from('img/heart.png')
-    
-        for (let i = 0; i < 5; i++) {
-            const heart = new PIXI.Sprite(heartTexture);
-            heart.width = 30;
-            heart.height = 30;
-            heart.x = (i % 5) * 40;
-            heart.y = Math.floor(i / 5) * 40;
-            heartsLivesContainer.addChild(heart);
-        }
-        heartsLivesContainer.x = window.innerWidth / 1.14;
-        heartsLivesContainer.y = window.innerHeight/ 27;
-        heartsLivesContainer.pivot.x = heartsLivesContainer.width / 2;
-        heartsLivesContainer.pivot.y = heartsLivesContainer.height / 2;
-        let text = new PIXI.Text('LIVES :',{fontFamily : 'Arial', fontSize: 24, fill : 0xff1010, align : 'left'});
-        app.stage.addChild(text)
-        text.x = 1080
-        text.y = 17
+    // Hearts container
+    const heartsLivesContainer = new PIXI.Container()
+    app.stage.addChild(heartsLivesContainer)
+    const heartTexture = PIXI.Texture.from('img/heart.png')
+
+    for (let i = 0; i < 5; i++) {
+        const heart = new PIXI.Sprite(heartTexture);
+        heart.width = 30;
+        heart.height = 30;
+        heart.x = (i % 5) * 40;
+        heart.y = Math.floor(i / 5) * 40;
+        heartsLivesContainer.addChild(heart);
+    }
+    heartsLivesContainer.x = app.screen.width / 1.14;
+    heartsLivesContainer.y = app.screen.height / 27;
+    heartsLivesContainer.pivot.x = heartsLivesContainer.width / 2;
+    heartsLivesContainer.pivot.y = heartsLivesContainer.height / 2;
+    let text = new PIXI.Text('LIVES :', { fontFamily: 'Arial', fontSize: 24, fill: 0xff1010, align: 'left' });
+    app.stage.addChild(text)
+    text.x = 1080
+    text.y = 17
     // 
     let lives = 5
     let bullets = [];
@@ -131,12 +131,19 @@ function startApp(e) {
     // Create grid of enemies
     for (let i = 0; i < 24; i++) {
         const enemy = new PIXI.Sprite(texture);
-
+        enemy.width = 90
+        enemy.height = 90
         enemy.anchor.set(0.5);
         enemy.x = (i % 12) * 100;
         enemy.y = Math.floor(i / 12) * 100;
         container.addChild(enemy);
     }
+    // Move container to the center
+    container.x = app.screen.width / 1.9;
+    container.y = app.screen.height / 4;
+    // Center enemy sprite in local container coordinates
+    container.pivot.x = container.width / 2;
+    container.pivot.y = container.height / 2;
 
     let enemiesArray = container.children
 
@@ -179,7 +186,7 @@ function startApp(e) {
             if (enemyBulletsArr.length > 0) {
                 if (intersectOfPlayerAndEnemy(enemyBulletsArr[i], player)) {
                     enemyBulletsArr[i].speed = 0;
-                    heartsLivesContainer.children.length -=1
+                    heartsLivesContainer.children.length -= 1
                     lives -= 1
                 }
                 if (enemyBulletsArr[i].speed === 0) {
@@ -211,12 +218,7 @@ function startApp(e) {
 
 
 
-    // Move container to the center
-    container.x = app.screen.width / 2;
-    container.y = app.screen.height / 5;
-    // Center enemy sprite in local container coordinates
-    container.pivot.x = container.width / 2;
-    container.pivot.y = container.height / 2;
+
 
 
     // Create and animate bullets
@@ -291,5 +293,5 @@ function startApp(e) {
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min + 1) + min); //The maximum is inclusive and the minimum is inclusive
     }
-    console.log(window.innerWidth,window.innerHeight);
+    console.log(container.getBounds());
 }
