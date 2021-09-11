@@ -88,10 +88,11 @@ function startApp(e) {
     heartsLivesContainer.y = app.screen.height / 27;
     heartsLivesContainer.pivot.x = heartsLivesContainer.width / 2;
     heartsLivesContainer.pivot.y = heartsLivesContainer.height / 2;
+    // Add text to stage
     let text = new PIXI.Text('LIVES :', { fontFamily: 'Arial', fontSize: 24, fill: 0xff1010, align: 'left' });
     app.stage.addChild(text)
-    text.x = 1080
-    text.y = 17
+    text.x = heartsLivesContainer.x - 180
+    text.y = heartsLivesContainer.y - 12
     // 
     let lives = 5
     let bullets = [];
@@ -293,5 +294,6 @@ function startApp(e) {
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min + 1) + min); //The maximum is inclusive and the minimum is inclusive
     }
-    console.log(container.getBounds());
+    console.log(heartsLivesContainer.getBounds());
 }
+// x 1168,15  y 15,40
