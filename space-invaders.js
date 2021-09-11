@@ -6,6 +6,11 @@ document.querySelector("body > button").addEventListener('click', startApp)
 
 
 function startApp(e) {
+
+    var sound = new Howl({
+        src: ['img/soundEx.wav']
+      });
+
     if (e.returnValue) {
         document.querySelector("body > button").style.display = 'none'
         document.body.style.cursor = 'none'
@@ -186,6 +191,7 @@ function startApp(e) {
 
             if (enemyBulletsArr.length > 0) {
                 if (intersectOfPlayerAndEnemy(enemyBulletsArr[i], player)) {
+                    sound.play();
                     enemyBulletsArr[i].speed = 0;
                     heartsLivesContainer.children.length -= 1
                     lives -= 1
@@ -253,6 +259,7 @@ function startApp(e) {
             for (let j = 0; j <= enemiesArray.length - 1; j++) {
                 if (bullets.length > 0) {
                     if (intersectOfPlayerAndEnemy(bullets[i], enemiesArray[j])) {
+                        sound.play();
                         bullets[i].speed = 0;
                     }
                     if (bullets[i].speed === 0) {
@@ -294,6 +301,4 @@ function startApp(e) {
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min + 1) + min); //The maximum is inclusive and the minimum is inclusive
     }
-    console.log(heartsLivesContainer.getBounds());
 }
-// x 1168,15  y 15,40
