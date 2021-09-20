@@ -18,3 +18,13 @@ button {
 button:hover {
     background-color: green;
 }
+div {
+    display: none;
+    position: absolute;
+    bottom: 20%;
+    left: 30%;
+    z-index: 1;
+    font-size: 120px;
+    color: rgb(138, 240, 22);
+    text-align: center;
+}

@@ -119,7 +119,7 @@ function startApp(e) {
     document.body.addEventListener("pointerdown", fireBullet)
 
     // Create Player
-    let player = new PIXI.Sprite.from("img/enemy.png")
+    let player = new PIXI.Sprite.from("img/player.png")
 
     player.anchor.set(0.5)
     player.x = app.view.width / 2
@@ -209,6 +209,8 @@ function startApp(e) {
                         app.stage.removeChild(player)
                         app.ticker.stop()
                         document.body.style.cursor = 'default'
+                        document.querySelector("body > div.over").style.display = "inline"
+                        gsap.from('.btn', { duration: 3, rotation: 360, opacity: 0, scale: 0.2 })
                     }
                 }
             }
@@ -269,6 +271,9 @@ function startApp(e) {
                         container.removeChild(enemiesArray[j])
                         app.stage.removeChild(bullets[i])
                         bullets.splice(i, 1)
+                        if (enemiesArray.length === 0 ){
+                            document.querySelector("body > div.win").style.display = "inline"
+                        }
                     }
                 }
             }
@@ -302,5 +307,7 @@ function startApp(e) {
 
         return Math.floor(Math.random() * (max - min + 1) + min);
     }
+   
+
 }
-gsap.from('.btn', { duration: 3, rotation: 360, opacity: 0,scale: 0.2})
+gsap.from('.btn', { duration: 3, rotation: 360, opacity: 0, scale: 0.2 })
