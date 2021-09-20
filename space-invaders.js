@@ -303,3 +303,4 @@ function startApp(e) {
         return Math.floor(Math.random() * (max - min + 1) + min);
     }
 }
+gsap.from('.btn', { duration: 3, rotation: 360, opacity: 0,scale: 0.2` })
