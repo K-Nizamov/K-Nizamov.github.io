@@ -154,7 +154,7 @@ function startApp(e) {
 
         enemy.width = 90
         enemy.height = 90
-        enemy.anchor.set(0.5);
+        enemy.anchor.set(0.5,0.5);
         enemy.x = (i % 12) * 100;
         enemy.y = Math.floor(i / 12) * 100;
         container.addChild(enemy);
