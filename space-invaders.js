@@ -137,7 +137,6 @@ function startApp(e) {
     app.stage.interactive = true;
     app.stage.on('pointermove', movePlayer)
 
-
     function movePlayer(e) {
         let pos = e.data.global
         player.x = pos.x;
@@ -273,6 +272,7 @@ function startApp(e) {
                 if (bullets.length > 0) {
                     if (intersectOfPlayerAndEnemy(bullets[i], enemiesArray[j])) {
                         sound.play();
+                        explosionPlay(enemiesArray[j])
                         bullets[i].speed = 0;
                     }
                     if (bullets[i].speed === 0) {
@@ -317,6 +317,32 @@ function startApp(e) {
         return Math.floor(Math.random() * (max - min + 1) + min);
     }
 
+
+    app.loader
+        .add('spritesheet', '/img/mc.json')
+        .load(onAssetsLoaded);
+
+    function onAssetsLoaded() {
+    }
+    function explosionPlay(enemyPos) {
+        const explosionTextures = [];
+
+        for (let i = 0; i < 26; i++) {
+            const texture = PIXI.Texture.from(`Explosion_Sequence_A ${i + 1}.png`);
+            explosionTextures.push(texture);
+        }
+
+        const explosion = new PIXI.AnimatedSprite(explosionTextures);
+
+        explosion.loop = false;
+        explosion.x = enemyPos.x + 160;
+        explosion.y = enemyPos.y + 120;
+        explosion.anchor.set(0.5);
+        explosion.rotation = Math.random() * Math.PI;
+        explosion.scale.set(0.8, 0.8);
+        explosion.play();
+        app.stage.addChild(explosion);
+    }
 
 }
 gsap.from(startBtn, { duration: 3, rotation: 360, opacity: 0, scale: 0.2 })
