@@ -2,7 +2,7 @@
     padding: 0;
     margin: 0;
 }
-button {
+#startBtn {
     position: absolute;
     top: 43%;
     left: 39%;
@@ -15,9 +15,27 @@ button {
     background: rgb(141, 24, 3);
     color: white;
 }
-button:hover {
+#startBtn:hover {
     background-color: green;
 }
+
+#reload{
+position: absolute;
+z-index: 1;
+font-family:'Times New Roman', Times, serif;
+font-size: 50px;
+background: transparent;
+color: white;
+border: none;
+top: 45%;
+left: 40%;
+display: none;
+}
+
+#reload:hover{
+    color:yellowgreen;
+}
+
 div {
     display: none;
     position: absolute;

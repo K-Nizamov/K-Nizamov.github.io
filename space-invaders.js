@@ -4,8 +4,16 @@ app.renderer.resize(window.innerWidth, window.innerHeight);
 app.renderer.view.style.position = 'absolute';
 
 document.body.appendChild(app.view)
-document.querySelector("body > button").addEventListener('click', startApp)
 
+let startBtn = document.getElementById('startBtn')
+startBtn.addEventListener('click', startApp)
+
+let reload = document.getElementById('reload')
+reload.addEventListener('click', startAgain)
+
+function startAgain() {
+    setTimeout(() => { location.reload() }, 400)
+}
 
 function startApp(e) {
     let sound = new Howl({
@@ -210,7 +218,7 @@ function startApp(e) {
                         app.ticker.stop()
                         document.body.style.cursor = 'default'
                         document.querySelector("body > div.over").style.display = "inline"
-                        gsap.from('.btn', { duration: 3, rotation: 360, opacity: 0, scale: 0.2 })
+                        reload.style.display = "inline"
                     }
                 }
             }
@@ -271,8 +279,9 @@ function startApp(e) {
                         container.removeChild(enemiesArray[j])
                         app.stage.removeChild(bullets[i])
                         bullets.splice(i, 1)
-                        if (enemiesArray.length === 0 ){
+                        if (enemiesArray.length === 0) {
                             document.querySelector("body > div.win").style.display = "inline"
+                            reload.style.display = "inline"
                         }
                     }
                 }
@@ -307,7 +316,7 @@ function startApp(e) {
 
         return Math.floor(Math.random() * (max - min + 1) + min);
     }
-   
+
 
 }
-gsap.from('.btn', { duration: 3, rotation: 360, opacity: 0, scale: 0.2 })
+gsap.from(startBtn, { duration: 3, rotation: 360, opacity: 0, scale: 0.2 })
